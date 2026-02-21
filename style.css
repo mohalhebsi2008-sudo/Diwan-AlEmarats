@@ -13,7 +13,7 @@
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+  font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
   background:
     radial-gradient(900px 460px at 10% 0%, rgba(230,0,45,.08), transparent 55%),
     radial-gradient(900px 460px at 100% 10%, rgba(180,0,30,.08), transparent 55%),
@@ -29,9 +29,7 @@ body{
   border-bottom: 2px solid rgba(180,0,30,.18);
   backdrop-filter: blur(10px);
 }
-.head-inner{
-  display:flex; align-items:center; justify-content:space-between; gap:14px;
-}
+.head-inner{display:flex; align-items:center; justify-content:space-between; gap:14px;}
 .brand{display:flex; align-items:center; gap:14px}
 .logo{
   width:46px;height:46px;border-radius:14px;
@@ -42,6 +40,17 @@ body{
 }
 .header h1{margin:0;font-size:22px}
 .sub{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+
+.counters{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.pill{
+  font-size:12px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(180,0,30,.18);
+  background: rgba(230,0,45,.04);
+  color: var(--red);
+  font-weight:700;
+}
 
 .ornament{
   width:220px; height:42px; border-radius:999px;
@@ -57,7 +66,7 @@ body{
 
 .layout{
   display:grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 340px 1fr;
   gap: 16px;
   margin-top: 10px;
 }
@@ -74,11 +83,7 @@ body{
   padding: 14px;
 }
 
-.panel-title{
-  font-weight:800;
-  color: var(--red);
-  margin-bottom: 10px;
-}
+.panel-title{font-weight:900;color:var(--red);margin-bottom:10px}
 
 .field{display:flex;flex-direction:column;gap:8px}
 .field span{font-size:13px;color:var(--muted)}
@@ -94,16 +99,11 @@ input:focus, select:focus{
   box-shadow: 0 0 0 4px rgba(180,0,30,.10);
 }
 
-.divider{
-  height:1px;
-  background: rgba(180,0,30,.15);
-  margin: 12px 0;
-}
+.divider{height:1px;background: rgba(180,0,30,.15);margin: 12px 0;}
 
 .list{
-  display:grid;
-  gap: 8px;
-  max-height: 460px;
+  display:grid; gap: 8px;
+  max-height: 360px;
   overflow:auto;
   padding-right: 6px;
 }
@@ -121,7 +121,7 @@ input:focus, select:focus{
   border-color: rgba(180,0,30,.55);
   background: rgba(180,0,30,.10);
 }
-.item .title{font-weight:800}
+.item .title{font-weight:900}
 .item .meta{margin-top:4px;color:var(--muted);font-size:12px}
 
 .note{margin-top:10px;color:var(--muted);font-size:12px}
@@ -138,9 +138,7 @@ h2{margin:0}
   grid-template-columns: 1fr 220px;
   gap: 12px;
 }
-@media (max-width: 740px){
-  .grid2{grid-template-columns:1fr}
-}
+@media (max-width: 740px){ .grid2{grid-template-columns:1fr} }
 
 .btn{
   cursor:pointer;
@@ -149,16 +147,14 @@ h2{margin:0}
   padding: 10px 12px;
   background:#fff;
   color: var(--text);
+  font-weight:700;
 }
 .btn.primary{
   background: linear-gradient(135deg, var(--red), var(--red2));
   color:#fff;
   border-color: rgba(180,0,30,.45);
 }
-.btn.ghost{
-  background: transparent;
-  color: var(--red);
-}
+.btn.ghost{background: transparent;color: var(--red);}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 
 .poems{display:grid;gap:10px;margin-top:12px}
@@ -177,9 +173,7 @@ h2{margin:0}
 .poem-card .p-title{font-weight:900}
 .poem-card .p-sub{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}
 
-.viewer-head{
-  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;
-}
+.viewer-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;}
 .viewer-actions{display:flex;gap:10px;flex-wrap:wrap}
 
 .poem-text{
@@ -190,8 +184,18 @@ h2{margin:0}
   border-radius: 16px;
   border: 1px dashed rgba(180,0,30,.35);
   background: rgba(230,0,45,.03);
-  min-height: 220px;
+  min-height: 260px;
 }
+
+/* قصيدة اليوم */
+.pod-card{
+  border: 1px solid rgba(180,0,30,.18);
+  border-radius: 16px;
+  padding: 12px;
+  background: rgba(230,0,45,.04);
+}
+.pod-title{font-weight:900}
+.pod-meta{margin:6px 0 10px;color:var(--muted);font-size:12px;line-height:1.5}
 
 .footer{
   margin-top: 18px;
