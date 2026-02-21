@@ -4,6 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ديوان الإمارات</title>
+
+  <!-- خط عربي جميل (مفتوح المصدر) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,7 +20,12 @@
       <div class="logo">د</div>
       <div>
         <h1>ديوان الإمارات</h1>
-        <p class="sub">ابحث عن الشاعر، اختره، ثم ابحث داخل قصايده عن القصيدة اللي تبيها.</p>
+        <p class="sub">ابحث عن الشاعر أو ابحث بحثًا عامًا في كل الديوان.</p>
+
+        <div class="counters">
+          <span class="pill" id="countPoets">—</span>
+          <span class="pill" id="countPoems">—</span>
+        </div>
       </div>
     </div>
     <div class="ornament" aria-hidden="true"></div>
@@ -24,20 +35,35 @@
 <main class="container layout">
   <!-- Sidebar -->
   <aside class="panel">
-    <div class="panel-title">🔎 البحث</div>
+    <div class="panel-title">⭐ قصيدة اليوم</div>
+    <div id="poemOfDay" class="pod-card">
+      <div class="pod-title">—</div>
+      <div class="pod-meta">—</div>
+      <button id="openPoD" class="btn primary" disabled>فتح قصيدة اليوم</button>
+    </div>
 
+    <div class="divider"></div>
+
+    <div class="panel-title">🔎 بحث عام (كل الديوان)</div>
     <label class="field">
-      <span>ابحث عن شاعر</span>
-      <input id="poetSearch" type="text" placeholder="مثال: الماجدي" />
+      <span>ابحث باسم القصيدة / كلمة من النص / وسم</span>
+      <input id="globalSearch" type="text" placeholder="مثال: وطني / زايد / حكمة..." />
     </label>
+    <div id="globalResults" class="poems"></div>
 
     <div class="divider"></div>
 
     <div class="panel-title">👤 الشعراء</div>
+    <label class="field">
+      <span>ابحث عن شاعر</span>
+      <input id="poetSearch" type="text" placeholder="مثال: زايد / الخضر..." />
+    </label>
+
+    <div class="divider"></div>
     <div id="poetsList" class="list"></div>
 
     <div class="note">
-      تقدر تضيف شعراء وقصايد من ملف <code>data.js</code>.
+      إضافة النصوص الأصلية تكون من <code>data.js</code> (الصق نص القصيدة في خانة <code>text</code>).
     </div>
   </aside>
 
@@ -56,12 +82,12 @@
 
       <div class="grid2">
         <label class="field">
-          <span>ابحث داخل القصايد</span>
-          <input id="poemSearch" type="text" placeholder="عنوان القصيدة أو كلمة منها..." disabled />
+          <span>ابحث داخل قصايد الشاعر</span>
+          <input id="poemSearch" type="text" placeholder="عنوان القصيدة أو كلمة..." disabled />
         </label>
 
         <label class="field">
-          <span>تصنيف (اختياري)</span>
+          <span>تصنيف</span>
           <select id="tagFilter" disabled>
             <option value="">كل التصنيفات</option>
           </select>
