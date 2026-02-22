@@ -1,19 +1,21 @@
 :root{
-  --bg:#fff7f7;
+  --bg:#fff6f6;
   --card:#ffffff;
   --text:#1b1b1b;
   --muted:#6b6b6b;
+
   --red:#b4001e;
   --red2:#e6002d;
   --border:rgba(180,0,30,.18);
   --shadow:0 14px 35px rgba(0,0,0,.10);
+
   --radius:18px;
 }
 
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+  font-family:"Cairo", system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
   background:
     radial-gradient(900px 460px at 10% 0%, rgba(230,0,45,.08), transparent 55%),
     radial-gradient(900px 460px at 100% 10%, rgba(180,0,30,.08), transparent 55%),
@@ -21,7 +23,7 @@ body{
   color:var(--text);
 }
 
-.container{max-width:1100px;margin:0 auto;padding:18px}
+.container{max-width:1120px;margin:0 auto;padding:18px}
 
 .header{
   position: sticky; top:0; z-index:10;
@@ -29,17 +31,20 @@ body{
   border-bottom: 2px solid rgba(180,0,30,.18);
   backdrop-filter: blur(10px);
 }
-.head-inner{display:flex; align-items:center; justify-content:space-between; gap:14px;}
-.brand{display:flex; align-items:center; gap:14px}
+.head-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-text h1{margin:0;font-size:22px}
+.sub{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+
 .logo{
   width:46px;height:46px;border-radius:14px;
   display:grid;place-items:center;
   background: linear-gradient(135deg, var(--red), var(--red2));
-  color:#fff;font-weight:800;font-size:22px;
+  color:#fff;font-weight:900;font-size:22px;
   box-shadow: 0 10px 22px rgba(180,0,30,.22);
 }
-.header h1{margin:0;font-size:22px}
-.sub{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
 
 .counters{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .pill{
@@ -49,11 +54,11 @@ body{
   border:1px solid rgba(180,0,30,.18);
   background: rgba(230,0,45,.04);
   color: var(--red);
-  font-weight:700;
+  font-weight:800;
 }
 
 .ornament{
-  width:220px; height:42px; border-radius:999px;
+  width:240px; height:44px; border-radius:999px;
   border:1px solid rgba(180,0,30,.25);
   background:
     repeating-linear-gradient(45deg,
@@ -66,7 +71,7 @@ body{
 
 .layout{
   display:grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 360px 1fr;
   gap: 16px;
   margin-top: 10px;
 }
@@ -83,15 +88,19 @@ body{
   padding: 14px;
 }
 
-.panel-title{font-weight:900;color:var(--red);margin-bottom:10px}
+.panel-title{
+  font-weight:900;
+  color:var(--red);
+  margin-bottom:10px;
+}
 
 .field{display:flex;flex-direction:column;gap:8px}
 .field span{font-size:13px;color:var(--muted)}
 input, select{
-  padding: 12px 12px;
-  border-radius: 14px;
-  border: 1px solid rgba(180,0,30,.22);
-  background: #fff;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(180,0,30,.22);
+  background:#fff;
   outline:none;
 }
 input:focus, select:focus{
@@ -127,34 +136,36 @@ input:focus, select:focus{
 .note{margin-top:10px;color:var(--muted);font-size:12px}
 
 .content{display:grid;gap:16px}
-.content-panel .content-head{
+.content-head{
   display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;
 }
 h2{margin:0}
-.meta{margin:6px 0 0;color:var(--muted);font-size:12px}
+.meta{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
 
 .grid2{
   display:grid;
-  grid-template-columns: 1fr 220px;
+  grid-template-columns: 1fr 230px;
   gap: 12px;
 }
-@media (max-width: 740px){ .grid2{grid-template-columns:1fr} }
+@media (max-width: 740px){
+  .grid2{grid-template-columns:1fr}
+}
 
 .btn{
   cursor:pointer;
-  border-radius: 14px;
-  border: 1px solid rgba(180,0,30,.22);
-  padding: 10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(180,0,30,.22);
+  padding:10px 12px;
   background:#fff;
-  color: var(--text);
-  font-weight:700;
+  color:var(--text);
+  font-weight:800;
 }
 .btn.primary{
   background: linear-gradient(135deg, var(--red), var(--red2));
   color:#fff;
   border-color: rgba(180,0,30,.45);
 }
-.btn.ghost{background: transparent;color: var(--red);}
+.btn.ghost{background:transparent;color:var(--red)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 
 .poems{display:grid;gap:10px;margin-top:12px}
@@ -162,7 +173,7 @@ h2{margin:0}
   border: 1px solid rgba(180,0,30,.18);
   border-radius: 16px;
   padding: 12px;
-  background: rgba(255,255,255,.75);
+  background: rgba(255,255,255,.85);
   cursor:pointer;
 }
 .poem-card:hover{background: rgba(230,0,45,.04)}
@@ -171,9 +182,11 @@ h2{margin:0}
   background: rgba(180,0,30,.08);
 }
 .poem-card .p-title{font-weight:900}
-.poem-card .p-sub{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.5}
+.poem-card .p-sub{margin-top:6px;color:var(--muted);font-size:12px;line-height:1.55}
 
-.viewer-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;}
+.viewer-head{
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start;
+}
 .viewer-actions{display:flex;gap:10px;flex-wrap:wrap}
 
 .poem-text{
@@ -184,7 +197,7 @@ h2{margin:0}
   border-radius: 16px;
   border: 1px dashed rgba(180,0,30,.35);
   background: rgba(230,0,45,.03);
-  min-height: 260px;
+  min-height: 280px;
 }
 
 /* قصيدة اليوم */
@@ -197,10 +210,32 @@ h2{margin:0}
 .pod-title{font-weight:900}
 .pod-meta{margin:6px 0 10px;color:var(--muted);font-size:12px;line-height:1.5}
 
+.toast{
+  margin-top: 10px;
+  color: var(--red);
+  font-size: 12px;
+  min-height: 18px;
+}
+
 .footer{
   margin-top: 18px;
   padding: 14px 0;
   color: var(--muted);
   border-top: 1px solid rgba(180,0,30,.18);
-  background: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.75);
+}
+.foot-inner{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.foot-badge{
+  font-size:12px;
+  font-weight:800;
+  color: var(--red);
+  border:1px solid rgba(180,0,30,.18);
+  background: rgba(230,0,45,.04);
+  padding:6px 10px;
+  border-radius: 999px;
 }
