@@ -1,4 +1,3 @@
-// app.js (نسخة تدعم textFull + بحث عام + قصيدة اليوم + عدادات)
 (function () {
   const poetSearch = document.getElementById("poetSearch");
   const poetsList = document.getElementById("poetsList");
@@ -26,28 +25,29 @@
   const openPoD = document.getElementById("openPoD");
 
   const rightsNoteEl = document.getElementById("rightsNote");
+  const toast = document.getElementById("toast");
 
   const diwan = window.DIWAN || { poets: [] };
 
   let selectedPoetId = null;
   let selectedPoemId = null;
 
-  function norm(s) {
-    return (s || "").toString().trim().toLowerCase();
+  function norm(s) { return (s || "").toString().trim().toLowerCase(); }
+
+  function showToast(msg) {
+    if (!toast) return;
+    toast.textContent = msg;
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => (toast.textContent = ""), 1400);
   }
 
-  // يرجّع نص القصيدة بشكل موحّد
   function getPoemText(poem) {
-    // الأولوية: textFull ثم text ثم snippet
     const full = (poem.textFull || "").trim();
     if (full) return full;
-
     const t = (poem.text || "").trim();
     if (t) return t;
-
     const sn = (poem.snippet || "").trim();
     if (sn) return `المقتطف:\n${sn}\n`;
-
     return "";
   }
 
@@ -58,13 +58,10 @@
         all.push({
           poetId: p.id,
           poetName: p.name,
-          poetEra: p.era,
           poemId: po.id,
           title: po.title,
           tags: po.tags || [],
-          // مهم: البحث العام يعتمد على هذا
-          searchableText: getPoemText(po),
-          source: po.source || "",
+          text: getPoemText(po),
           raw: po
         });
       });
@@ -122,31 +119,15 @@
     });
   }
 
-  function buildPoemCard(poem, active, subtitleExtra = "") {
+  function buildPoemCardForList(title, tags, preview, active, onClick, extra = "") {
     const div = document.createElement("div");
     div.className = "poem-card" + (active ? " active" : "");
-
-    const tags = (poem.tags || []).map(t => `#${t}`).join(" ");
-    const preview = (getPoemText(poem.raw || poem) || "")
-      .split("\n").slice(0,2).join(" / ")
-      .slice(0, 140);
-
+    const tagStr = (tags || []).map(t => `#${t}`).join(" ");
     div.innerHTML = `
-      <div class="p-title">${poem.title}</div>
-      <div class="p-sub">${subtitleExtra}${tags ? " • " + tags : ""} • ${preview || "—"}</div>
+      <div class="p-title">${title}</div>
+      <div class="p-sub">${extra}${tagStr ? " • " + tagStr : ""} • ${preview || "—"}</div>
     `;
-
-    div.addEventListener("click", () => {
-      // إذا جاية من البحث العام
-      if (poem.poetId && poem.poemId) {
-        selectPoet(poem.poetId);
-        selectPoem(poem.poemId);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        selectPoem(poem.id);
-      }
-    });
-
+    div.addEventListener("click", onClick);
     return div;
   }
 
@@ -178,14 +159,24 @@
     });
 
     if (!list.length) {
-      const empty = document.createElement("div");
-      empty.className = "poem-card";
-      empty.innerHTML = `<div class="p-title">ما في قصايد مطابقة</div><div class="p-sub">غيّر البحث أو التصنيف</div>`;
-      poemsList.appendChild(empty);
+      poemsList.appendChild(
+        buildPoemCardForList("ما في قصايد مطابقة", [], "غيّر البحث أو التصنيف", false, () => {})
+      );
       return;
     }
 
-    list.forEach(po => poemsList.appendChild(buildPoemCard({ ...po, raw: po }, po.id === selectedPoemId)));
+    list.forEach(po => {
+      const preview = (getPoemText(po) || "").split("\n").slice(0,2).join(" / ").slice(0, 140);
+      poemsList.appendChild(
+        buildPoemCardForList(
+          po.title,
+          po.tags || [],
+          preview,
+          po.id === selectedPoemId,
+          () => selectPoem(po.id)
+        )
+      );
+    });
   }
 
   function selectPoet(id) {
@@ -223,11 +214,7 @@
     poemInfo.textContent = `${poet.name} • ${(poem.tags || []).join("، ") || "—"}`;
 
     const text = getPoemText(poem);
-    if (text) {
-      poemText.textContent = text;
-    } else {
-      poemText.textContent = "ما فيه نص للقصيدة داخل البيانات.";
-    }
+    poemText.textContent = text || "ما فيه نص للقصيدة داخل البيانات.";
 
     copyBtn.disabled = false;
     renderPoems();
@@ -239,9 +226,11 @@
 
     try {
       await navigator.clipboard.writeText(`${poemTitle.textContent}\n\n${txt}`);
+      showToast("✅ تم النسخ");
       copyBtn.textContent = "✅ تم النسخ";
       setTimeout(() => (copyBtn.textContent = "📋 نسخ القصيدة"), 1200);
     } catch {
+      showToast("ما قدرت أنسخ تلقائياً");
       alert("ما قدرت أنسخ تلقائياً. انسخ يدوي.");
     }
   }
@@ -268,7 +257,7 @@
     renderPoets();
   }
 
-  // ⭐ بحث عام في كل الديوان
+  // ⭐ بحث عام
   function renderGlobalSearch() {
     const q = norm(globalSearch.value);
     globalResults.innerHTML = "";
@@ -277,25 +266,32 @@
     const hits = ALL_POEMS
       .filter(p =>
         norm(p.title).includes(q) ||
-        norm(p.searchableText).includes(q) ||
+        norm(p.text).includes(q) ||
         p.tags.some(t => norm(t).includes(q)) ||
         norm(p.poetName).includes(q)
       )
       .slice(0, 30);
 
     if (!hits.length) {
-      const empty = document.createElement("div");
-      empty.className = "poem-card";
-      empty.innerHTML = `<div class="p-title">ما في نتائج</div><div class="p-sub">جرّب كلمة ثانية</div>`;
-      globalResults.appendChild(empty);
+      globalResults.appendChild(
+        buildPoemCardForList("ما في نتائج", [], "جرّب كلمة ثانية", false, () => {})
+      );
       return;
     }
 
     hits.forEach(h => {
+      const preview = (h.text || "").split("\n").slice(0,2).join(" / ").slice(0, 140);
       globalResults.appendChild(
-        buildPoemCard(
-          { title: h.title, tags: h.tags, poetId: h.poetId, poemId: h.poemId, raw: h.raw },
+        buildPoemCardForList(
+          h.title,
+          h.tags,
+          preview,
           false,
+          () => {
+            selectPoet(h.poetId);
+            selectPoem(h.poemId);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
           `👤 ${h.poetName}`
         )
       );
@@ -340,7 +336,6 @@
   // Events
   poetSearch?.addEventListener("input", renderPoets);
   globalSearch?.addEventListener("input", renderGlobalSearch);
-
   poemSearch?.addEventListener("input", renderPoems);
   tagFilter?.addEventListener("change", renderPoems);
   clearBtn?.addEventListener("click", clearSelection);
@@ -349,10 +344,9 @@
   // Init
   if (rightsNoteEl && diwan.site?.rightsNote) rightsNoteEl.textContent = diwan.site.rightsNote;
 
-  // إعادة بناء ALL_POEMS بعد تحميل البيانات
   ALL_POEMS = flattenAllPoems();
   updateCounters();
   renderPoD();
   clearSelection();
-  renderGlobalSearch();
+  renderPoets();
 })();
