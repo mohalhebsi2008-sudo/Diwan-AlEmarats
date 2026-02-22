@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ديوان الإمارات</title>
 
-  <!-- خط عربي جميل (مفتوح المصدر) -->
+  <!-- ⭐ خط عربي جميل -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800&display=swap" rel="stylesheet">
@@ -17,24 +17,27 @@
 <header class="header">
   <div class="container head-inner">
     <div class="brand">
-      <div class="logo">د</div>
-      <div>
+      <div class="logo" aria-hidden="true">د</div>
+      <div class="brand-text">
         <h1>ديوان الإمارات</h1>
-        <p class="sub">ابحث عن الشاعر أو ابحث بحثًا عامًا في كل الديوان.</p>
+        <p class="sub">ابحث عن الشاعر أو استخدم البحث العام للعثور على القصيدة بسرعة.</p>
 
+        <!-- ⭐ عدادات -->
         <div class="counters">
           <span class="pill" id="countPoets">—</span>
           <span class="pill" id="countPoems">—</span>
         </div>
       </div>
     </div>
+
     <div class="ornament" aria-hidden="true"></div>
   </div>
 </header>
 
 <main class="container layout">
   <!-- Sidebar -->
-  <aside class="panel">
+  <aside class="panel sidebar">
+    <!-- ⭐ قصيدة اليوم -->
     <div class="panel-title">⭐ قصيدة اليوم</div>
     <div id="poemOfDay" class="pod-card">
       <div class="pod-title">—</div>
@@ -44,26 +47,28 @@
 
     <div class="divider"></div>
 
+    <!-- ⭐ بحث عام -->
     <div class="panel-title">🔎 بحث عام (كل الديوان)</div>
     <label class="field">
-      <span>ابحث باسم القصيدة / كلمة من النص / وسم</span>
-      <input id="globalSearch" type="text" placeholder="مثال: وطني / زايد / حكمة..." />
+      <span>ابحث باسم القصيدة / كلمة من النص / وسم / اسم الشاعر</span>
+      <input id="globalSearch" type="text" placeholder="مثال: ترحيب / شوق / حكمة / زايد..." />
     </label>
     <div id="globalResults" class="poems"></div>
 
     <div class="divider"></div>
 
+    <!-- بحث الشعراء -->
     <div class="panel-title">👤 الشعراء</div>
     <label class="field">
       <span>ابحث عن شاعر</span>
-      <input id="poetSearch" type="text" placeholder="مثال: زايد / الخضر..." />
+      <input id="poetSearch" type="text" placeholder="مثال: زايد" />
     </label>
 
     <div class="divider"></div>
     <div id="poetsList" class="list"></div>
 
     <div class="note">
-      إضافة النصوص الأصلية تكون من <code>data.js</code> (الصق نص القصيدة في خانة <code>text</code>).
+      تعديل/إضافة القصايد من ملف <code>data.js</code>.
     </div>
   </aside>
 
@@ -97,7 +102,7 @@
       <div id="poemsList" class="poems"></div>
     </div>
 
-    <!-- Poem viewer -->
+    <!-- Viewer -->
     <div class="panel viewer">
       <div class="viewer-head">
         <div>
@@ -112,13 +117,15 @@
       <div class="divider"></div>
 
       <pre id="poemText" class="poem-text">اختر شاعر ثم قصيدة.</pre>
+      <div id="toast" class="toast" aria-live="polite"></div>
     </div>
   </section>
 </main>
 
 <footer class="footer">
-  <div class="container">
-    <span>© ديوان الإمارات — تصميم أحمر وأبيض بطابع تراثي</span>
+  <div class="container foot-inner">
+    <span id="rightsNote">© ديوان الإمارات</span>
+    <span class="foot-badge">🇦🇪 أحمر × أبيض</span>
   </div>
 </footer>
 
